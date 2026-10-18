@@ -36,10 +36,11 @@ EXPO_UNSTABLE_TUNNEL_V2=1 npx expo start --tunnel
 
 クラウドの開発サーバーとスマホは同じLANにいないため、Expo Goで試すには通常トンネルURLが必要です。Expo Go 57に合わせてSDK 57を使用しています。Android実機のExpo Goで起動・動作を確認済みです。同じスマホに表示されたQRコードはカメラで読み取れないので、実際に出力されたExpoリンクで開きます。使用するExpo Goの対応SDKも確認してください。
 
-トンネルが利用できない場合は、Expoアカウントを使ったEAS Buildでテスト用APKを作ります。アカウント接続とビルド枠の確認は未実施です。
+このワークスペースのようにHTTPSプロキシが必要な環境では、`npm run start:cloud`で起動します。Expoのトンネル用WebSocketにも継承したプロキシを指定し、書き込み可能な`.expo/cloud-runtime`にキャッシュを保存します。`*.on.expo.app`と`api.expo.dev`への通信許可が必要です。TLS検証とローカルMetroへの接続はそのまま維持します。Expo CLI内部の依存関係を使うため、SDK更新時には再確認してください。
+
+配布用APKは、紐付け済みのEASプロジェクトと既存のAndroid署名鍵を使い、`preview`プロファイルで作成します。
 
 ```bash
-npx eas-cli build:configure
 npx eas-cli build --platform android --profile preview
 ```
 

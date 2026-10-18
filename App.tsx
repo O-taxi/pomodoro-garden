@@ -43,7 +43,7 @@ function TimeBars({ ratio, design, color }: { ratio: number; design: TimerDesign
       const radians = angle * Math.PI / 180;
       const radius = size / 2 - 14;
       return <View key={index} style={[design === 'circle' ? styles.ringBar : styles.lineBar,
-        { backgroundColor: index < lit ? color : '#ffffff18' },
+        { backgroundColor: index < lit ? `${color}73` : '#ffffff18' },
         design === 'circle' && { transform: [
           { translateX: Math.sin(radians) * radius - 2 },
           { translateY: -Math.cos(radians) * radius - 8 },
@@ -212,7 +212,7 @@ function TimerScreen() {
             </View>
             </View>
             <View style={[styles.controls, isLinear && styles.landscapeControls]}>
-            <Pressable accessibilityRole="button" style={[styles.startButton, { backgroundColor: theme.accent }]} onPress={() => {
+            <Pressable accessibilityRole="button" style={[styles.startButton, { backgroundColor: `${theme.accent}73` }]} onPress={() => {
               const timestamp = Date.now(); setNow(timestamp);
               setTimer(current => {
                 if (current.endsAt !== null && secondsLeft(current, timestamp) === 0) return current;
@@ -229,8 +229,11 @@ function TimerScreen() {
         <View style={styles.modalRoot}>
           <Pressable accessibilityRole="button" accessibilityLabel="設定を閉じる" style={styles.backdrop} onPress={() => setPickerOpen(false)} />
           <SafeAreaView edges={['bottom']} style={styles.sheet}>
-            <ScrollView contentContainerStyle={styles.sheetContent}>
+            <View style={styles.sheetHeader}>
               <Text style={styles.sheetTitle}>設定</Text>
+              <Pressable accessibilityRole="button" accessibilityLabel="設定を閉じる" onPress={() => setPickerOpen(false)} style={styles.resetButton}><Text style={styles.resetText}>閉じる</Text></Pressable>
+            </View>
+            <ScrollView contentContainerStyle={styles.sheetContent}>
               <Text style={styles.backgroundText}>タイマーの表示</Text>
             <View style={styles.designSwitch} accessibilityRole="tablist">
               {(['circle', 'line'] as const).map(design => <Pressable key={design} disabled={!ready || photoBusy} accessibilityRole="tab" accessibilityState={{ selected: timerDesign === design }} onPress={() => setTimerDesign(design)} style={[styles.designOption, timerDesign === design && styles.designSelected]}>
@@ -254,7 +257,6 @@ function TimerScreen() {
               {editingBackground.photoUri && <Pressable accessibilityRole="button" disabled={photoBusy} onPress={() => updateBackground({ usePhoto: true })} style={styles.photoButton}><Text style={styles.backgroundText}>保存した写真を使う{editingBackground.usePhoto ? ' ✓' : ''}</Text></Pressable>}
               <Text style={styles.sheetDescription}>集中25分・小休憩5分・長い休憩15分（集中4回ごと）。時間は固定です。</Text>
               <Text style={styles.sheetDescription}>終了のお知らせは画面表示中のみ。アプリを終了するとタイマーと集中回数は初期化されます。</Text>
-              <Pressable accessibilityRole="button" onPress={() => setPickerOpen(false)} style={styles.resetButton}><Text style={styles.resetText}>閉じる</Text></Pressable>
             </ScrollView>
           </SafeAreaView>
         </View>
@@ -283,32 +285,33 @@ const styles = StyleSheet.create({
   brand: { color: '#e8efe5', fontSize: 13, letterSpacing: 2.2, fontWeight: '600' },
   tabs: { flexDirection: 'row', padding: 5, borderRadius: 30, backgroundColor: '#ffffff10' },
   tab: { flex: 1, minHeight: 46, borderRadius: 26, alignItems: 'center', justifyContent: 'center' },
-  activeTab: { backgroundColor: '#eaf1e7' },
+  activeTab: { backgroundColor: '#eaf1e773' },
   tabText: { color: '#d4dfd7', fontSize: 13 },
-  activeTabText: { color: '#223b31', fontWeight: '700' },
+  activeTabText: { color: '#f8fbf4', fontWeight: '700', textShadowColor: '#06120e', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
   timerArea: { alignItems: 'center', flex: 1, minHeight: 0, paddingTop: 12 },
-  designSwitch: { flexDirection: 'row', borderRadius: 22, padding: 4, backgroundColor: '#06120e99', alignSelf: 'flex-start', marginTop: 10, marginBottom: 22 },
+  designSwitch: { flexDirection: 'row', borderRadius: 22, padding: 4, backgroundColor: '#06120e33', alignSelf: 'flex-start', marginTop: 10, marginBottom: 22 },
   designOption: { paddingVertical: 9, paddingHorizontal: 22, borderRadius: 18 },
-  designSelected: { backgroundColor: '#ffffff22' },
+  designSelected: { backgroundColor: '#ffffff73' },
   designLabel: { color: '#e4eee1', fontSize: 12 },
   ringBars: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 },
   ringBar: { position: 'absolute', left: '50%', top: '50%', width: 4, height: 16, borderRadius: 2 },
   lineBars: { flexDirection: 'row', flex: 1, gap: 4, alignSelf: 'stretch', margin: 12 },
   lineBar: { flex: 1, borderRadius: 2 },
-  linearTimer: { flexDirection: 'row', borderRadius: 20, borderColor: '#ffffff30', backgroundColor: '#06120e88', padding: 4 },
+  linearTimer: { flexDirection: 'row', borderRadius: 20, borderColor: '#ffffff30', backgroundColor: '#06120e33', padding: 4 },
   timerCircle: { borderWidth: 2, borderRadius: 180, alignItems: 'center', justifyContent: 'center', backgroundColor: '#06120e22' },
   clock: { color: '#f8fbf4', fontSize: 68, fontWeight: '200', fontVariant: ['tabular-nums'], letterSpacing: -2, marginVertical: 8, width: '88%', textAlign: 'center' },
   linearClock: { width: '26%', marginHorizontal: 8, letterSpacing: -1 },
   startButton: { marginTop: 8, borderRadius: 32, minHeight: 52, minWidth: 220, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 28 },
-  startText: { color: '#223729', fontWeight: '700', fontSize: 16 },
+  startText: { color: '#f8fbf4', fontWeight: '700', fontSize: 16, textShadowColor: '#06120e', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
   resetButton: { minHeight: 48, alignItems: 'center', justifyContent: 'center', padding: 12 },
   resetText: { color: '#c7d4c8', fontSize: 13 },
   backgroundText: { color: '#e4eee1', fontSize: 14 },
   modalRoot: { flex: 1, justifyContent: 'flex-end' },
   backdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: '#00000099' },
   sheet: { backgroundColor: '#1a2e26', borderTopLeftRadius: 28, borderTopRightRadius: 28, maxHeight: '85%' },
-  sheetContent: { padding: 24 },
-  sheetTitle: { color: '#f0f5eb', fontSize: 23, marginBottom: 12, fontWeight: '600' },
+  sheetHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 24, paddingTop: 12, paddingBottom: 4 },
+  sheetContent: { padding: 24, paddingTop: 12 },
+  sheetTitle: { color: '#f0f5eb', fontSize: 23, fontWeight: '600' },
   sheetDescription: { color: '#c3d0c4', fontSize: 12, lineHeight: 21 },
   themeRow: { flexDirection: 'row', gap: 10, marginVertical: 22 },
   themeOption: { flex: 1, borderWidth: 2, borderColor: 'transparent', padding: 3, borderRadius: 17 },

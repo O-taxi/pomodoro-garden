@@ -2,6 +2,12 @@
   "expo": {
     "name": "Pomodoro Garden",
     "slug": "pomodoro-garden",
+    "owner": "o-taxy",
+    "extra": {
+      "eas": {
+        "projectId": "e1850ec7-c48a-4e87-9d9f-1bd3070ffe22"
+      }
+    },
     "version": "0.1.0",
     "orientation": "default",
     "userInterfaceStyle": "dark",
