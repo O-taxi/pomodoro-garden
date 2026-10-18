@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "Pomodoro Garden",
+    "slug": "pomodoro-garden",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "android": { "package": "com.pomodorogarden.app" },
+    "plugins": [["expo-image-picker", { "photosPermission": "タイマーの背景に使う写真を選択します。", "cameraPermission": false, "microphonePermission": false }]]
+  }
+}
